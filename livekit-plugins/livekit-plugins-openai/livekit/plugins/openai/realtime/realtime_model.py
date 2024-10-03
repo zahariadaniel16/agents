@@ -449,6 +449,8 @@ class RealtimeSession(utils.EventEmitter[EventTypes]):
         loop: asyncio.AbstractEventLoop,
     ) -> None:
         super().__init__()
+        self._connection_error = False
+        
         self._main_atask = asyncio.create_task(
             self._main_task(), name="openai-realtime-session"
         )
@@ -590,7 +592,9 @@ class RealtimeSession(utils.EventEmitter[EventTypes]):
                 headers=headers,
             )
         except Exception:
+            self._connection_error = True
             logger.exception("failed to connect to OpenAI API S2S")
+            self.emit("api_connection_error")
             return
 
         closing = False
@@ -685,7 +689,9 @@ class RealtimeSession(utils.EventEmitter[EventTypes]):
         try:
             await asyncio.gather(*tasks)
         finally:
+            self.emit("api_connection_closed")
             await utils.aio.gracefully_cancel(*tasks)
+
 
     def _handle_session_created(
         self, session_created: api_proto.ServerEvent.SessionCreated
