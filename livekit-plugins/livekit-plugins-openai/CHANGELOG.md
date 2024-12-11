@@ -1,5 +1,15 @@
 # livekit-plugins-openai
 
+## 0.10.10
+
+### Patch Changes
+
+- emit error event for realtime model - [#1200](https://github.com/livekit/agents/pull/1200) ([@longcw](https://github.com/longcw))
+
+- fix: return structured output from func calls - [#1187](https://github.com/livekit/agents/pull/1187) ([@jayeshp19](https://github.com/jayeshp19))
+
+- Improvements to end of turn plugin, ensure STT language settings. - [#1195](https://github.com/livekit/agents/pull/1195) ([@davidzhao](https://github.com/davidzhao))
+
 ## 0.10.9
 
 ### Patch Changes
